@@ -32,7 +32,7 @@
 
   <entry id="OCN_DIAG_MODE">
     <type>char</type>
-    <valid_values>spinup,production,development,none</valid_values>
+    <valid_values>spinup,production,development,none,production_remap</valid_values>
     <default_value>production</default_value>
     <group>case_comp</group>
     <file>env_run.xml</file>

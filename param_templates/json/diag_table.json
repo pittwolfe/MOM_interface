@@ -20,11 +20,18 @@
          "uhbt"
       ],
       [
-         "agessc",
          "T_ady_2d",
          "T_adx_2d",
          "T_diffy_2d",
-         "T_diffx_2d"
+         "T_diffx_2d",
+         "T_lbd_diffx_2d",
+         "T_lbd_diffy_2d",
+         "S_ady_2d",
+         "S_adx_2d",
+         "S_diffy_2d",
+         "S_diffx_2d",
+         "S_lbd_diffx_2d",
+         "S_lbd_diffy_2d"
       ],
       [
          "SSH",
@@ -35,7 +42,6 @@
          "mass_wt",
          "opottempmint",
          "somint",
-         "Rd_dx",
          "speed",
          "mlotst"
       ],
@@ -45,7 +51,6 @@
       [
          "tauuo",
          "tauvo",
-         "friver",
          "prsn",
          "prlq",
          "evs",
@@ -103,12 +108,21 @@
          "geolon_v",
          "geolat_v",
          "area_t",
+         "area_u",
+         "area_v",
+         "area_q",
          "depth_ocean",
          "wet",
          "wet_c",
          "wet_u",
          "wet_v",
-         "Coriolis"
+         "Coriolis",
+         "dxt",
+         "dyt",
+         "dxCu",
+         "dyCu",
+         "dxCv",
+         "dyCv"
       ],
       [
          "volcello",
@@ -136,10 +150,7 @@
    ],
    "Files": {
       "sigma2_hist": {
-         "suffix": {
-            "$OCN_DIAG_MODE == \"spinup\"": "rho2%4yr",
-            "else": "rho2%4yr-%2mo"
-         },
+         "suffix": "rho2%4yr",
          "output_freq": 1,
          "output_freq_units": {
             "$OCN_DIAG_MODE == \"spinup\"": "years",
@@ -149,14 +160,13 @@
          "time_axis_units": "days",
          "new_file_freq": 1,
          "new_file_freq_units": {
-            "$OCN_DIAG_MODE == \"spinup\"": "years",
             "$TEST == True": "days",
-            "else": "months"
+            "else": "years"
          },
          "reduction_method": "mean",
          "regional_section": "none",
          "fields": {
-            "$OCN_DIAG_MODE != \"none\"": [
+            "$OCN_DIAG_MODE == \"production_remap\"": [
                {
                   "module": "ocean_model_rho2",
                   "packing": 2,
@@ -176,10 +186,7 @@
          }
       },
       "hist": {
-         "suffix": {
-            "$OCN_DIAG_MODE == \"spinup\"": "hm%4yr",
-            "else": "hm%4yr-%2mo"
-         },
+         "suffix": "hm%4yr",
          "output_freq": 1,
          "output_freq_units": {
             "$OCN_DIAG_MODE == \"spinup\"": "years",
@@ -189,52 +196,13 @@
          "time_axis_units": "days",
          "new_file_freq": 1,
          "new_file_freq_units": {
-            "$OCN_DIAG_MODE == \"spinup\"": "years",
             "$TEST == True": "days",
-            "else": "months"
+            "else": "years"
          },
          "reduction_method": "mean",
          "regional_section": "none",
          "fields": {
-            "$OCN_DIAG_MODE == \"spinup\"": [
-               {
-                  "module": "ocean_model",
-                  "packing": 2,
-                  "lists": [
-                     [
-                        "soga",
-                        "thetaoga",
-                        "uh",
-                        "vh",
-                        "vhbt",
-                        "uhbt"
-                     ],
-                     [
-                        "agessc",
-                        "T_ady_2d",
-                        "T_adx_2d",
-                        "T_diffy_2d",
-                        "T_diffx_2d"
-                     ],
-                     [
-                        "diftrelo",
-                        "diftrblo",
-                        "difmxybo",
-                        "difmxylo"
-                     ],
-                     [
-                        "volcello",
-                        "vmo",
-                        "vhGM",
-                        "vhml",
-                        "umo",
-                        "uhGM",
-                        "uhml"
-                     ]
-                  ]
-               }
-            ],
-            "$OCN_DIAG_MODE not in [\"spinup\", \"none\"]": [
+            "$OCN_DIAG_MODE not in [\"none\"]": [
                {
                   "module": "ocean_model",
                   "packing": 1,
@@ -264,7 +232,6 @@
                      [
                         "tauuo",
                         "tauvo",
-                        "friver",
                         "prsn",
                         "prlq",
                         "evs",
@@ -295,15 +262,8 @@
                         "mass_wt",
                         "opottempmint",
                         "somint",
-                        "Rd_dx",
                         "speed",
                         "mlotst"
-                     ],
-                     [
-                        "diftrelo",
-                        "diftrblo",
-                        "difmxybo",
-                        "difmxylo"
                      ],
                      [
                         "volcello",
@@ -315,11 +275,18 @@
                         "uhml"
                      ],
                      [
-                        "agessc",
                         "T_ady_2d",
                         "T_adx_2d",
                         "T_diffy_2d",
-                        "T_diffx_2d"
+                        "T_diffx_2d",
+                        "T_lbd_diffx_2d",
+                        "T_lbd_diffy_2d",
+                        "S_ady_2d",
+                        "S_adx_2d",
+                        "S_diffy_2d",
+                        "S_diffx_2d",
+                        "S_lbd_diffx_2d",
+                        "S_lbd_diffy_2d"
                      ]
                   ]
                }
@@ -327,46 +294,22 @@
          }
       },
       "hist_z_space": {
-         "suffix": {
-            "$OCN_DIAG_MODE == \"spinup\"": "h%4yr",
-            "else": "h%4yr-%2mo"
-         },
+         "suffix": "h%4yr",
          "output_freq": 1,
          "output_freq_units": {
-            "$OCN_DIAG_MODE == \"spinup\"": "years",
             "$TEST == True": "days",
             "else": "months"
          },
          "time_axis_units": "days",
          "new_file_freq": 1,
          "new_file_freq_units": {
-            "$OCN_DIAG_MODE == \"spinup\"": "years",
             "$TEST == True": "days",
-            "else": "months"
+            "else": "years"
          },
          "reduction_method": "mean",
          "regional_section": "none",
          "fields": {
-            "$OCN_DIAG_MODE == \"spinup\"": [
-               {
-                  "module": "ocean_model_z",
-                  "packing": 2,
-                  "lists": [
-                     [
-                        "uo",
-                        "vo",
-                        "h",
-                        "e",
-                        "thetao",
-                        "so",
-                        "rhoinsitu",
-                        "KE",
-                        "rhopot0"
-                     ]
-                  ]
-               }
-            ],
-            "$OCN_DIAG_MODE not in [\"spinup\", \"none\"]": [
+            "$OCN_DIAG_MODE == \"production_remap\"": [
                {
                   "module": "ocean_model_z",
                   "packing": 1,
@@ -389,11 +332,8 @@
       },
       "surface_avg": {
          "suffix": "sfc%4yr",
-         "output_freq": {
-            "$OCN_DIAG_MODE == \"spinup\"": 5,
-            "else": 1
-         },
-         "output_freq_units": "days",
+         "output_freq": 1,
+         "output_freq_units": "months",
          "time_axis_units": "days",
          "new_file_freq": 1,
          "new_file_freq_units": "years",
@@ -414,7 +354,6 @@
                         "mass_wt",
                         "opottempmint",
                         "somint",
-                        "Rd_dx",
                         "speed",
                         "mlotst"
                      ],
@@ -438,7 +377,6 @@
                         "mass_wt",
                         "opottempmint",
                         "somint",
-                        "Rd_dx",
                         "speed",
                         "mlotst"
                      ],
@@ -468,7 +406,6 @@
                      [
                         "tauuo",
                         "tauvo",
-                        "friver",
                         "prsn",
                         "prlq",
                         "evs",
@@ -563,12 +500,21 @@
                      "geolon_v",
                      "geolat_v",
                      "area_t",
+                     "area_u",
+                     "area_v",
+                     "area_q",
                      "depth_ocean",
                      "wet",
                      "wet_c",
                      "wet_u",
                      "wet_v",
-                     "Coriolis"
+                     "Coriolis",
+                     "dxt",
+                     "dyt",
+                     "dxCu",
+                     "dyCu",
+                     "dxCv",
+                     "dyCv"
                   ]
                ]
             }

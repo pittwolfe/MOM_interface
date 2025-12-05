@@ -8,17 +8,21 @@ FieldLists:
 
     - &hist_additional  ["soga", "thetaoga", "uh", "vh", "vhbt", "uhbt"]
 
-    - &tracers          ["agessc", "T_ady_2d", "T_adx_2d", "T_diffy_2d", "T_diffx_2d"]
+    - &tracers          ["T_ady_2d", "T_adx_2d", "T_diffy_2d", "T_diffx_2d", "T_lbd_diffx_2d", "T_lbd_diffy_2d",
+                         "S_ady_2d", "S_adx_2d", "S_diffy_2d", "S_diffx_2d", "S_lbd_diffx_2d", "S_lbd_diffy_2d"]
+# Removed: agessc
 
     - &surface_flds     ["SSH", "tos", "sos", "SSU", "SSV", "mass_wt", "opottempmint",
-                         "somint", "Rd_dx", "speed", "mlotst"]
+                         "somint", "speed", "mlotst"]
+# Removed: Rd_dx
 
     - &kpp_diags        ["KPP_OBLdepth:oml"]
 
-    - &forcing_flds     ["tauuo", "tauvo", "friver", "prsn", "prlq", "evs", "hfsso", "rlntds",
+    - &forcing_flds     ["tauuo", "tauvo", "prsn", "prlq", "evs", "hfsso", "rlntds",
                          "hfsnthermds", "sfdsi", "rsntds", "hfds", "ustar",
                          "hfsifrazil", "wfo", "vprec", "ficeberg", "fsitherm",
                          "hflso", "pso", "seaice_melt_heat", "Heat_PmE", "salt_flux_added"]
+# Removed: friver
 
     - &forcing_flds_dev ["net_heat_coupler", "hfds", "LwLatSens", "heat_content_lrunoff",
                          "heat_content_frunoff", "heat_content_icemelt", "heat_content_lprec",
@@ -30,8 +34,9 @@ FieldLists:
     - &visc_flds        ["diftrelo", "diftrblo", "difmxybo", "difmxylo"]
 
     - &static_flds      ["geolon", "geolat", "geolon_c", "geolat_c", "geolon_u", "geolat_u",
-                         "geolon_v", "geolat_v", "area_t", "depth_ocean", "wet", "wet_c", "wet_u",
-                         "wet_v", "Coriolis"]
+                         "geolon_v", "geolat_v", "area_t", "area_u", "area_v", "area_q", 
+                         "depth_ocean", "wet", "wet_c", "wet_u", "wet_v", "Coriolis",
+                         "dxt", "dyt", "dxCu", "dyCu", "dxCv", "dyCv", ]
 
     - &transports       ["volcello", "vmo", "vhGM", "vhml", "umo", "uhGM", "uhml"]
 
@@ -47,9 +52,7 @@ FieldLists:
 Files:
     # sigma2
     sigma2_hist:
-        suffix:
-            $OCN_DIAG_MODE == "spinup": "rho2%4yr"
-            else: "rho2%4yr-%2mo"
+        suffix: "rho2%4yr"
         output_freq: 1
         output_freq_units:
             $OCN_DIAG_MODE == "spinup": "years"
@@ -58,22 +61,19 @@ Files:
         time_axis_units: "days"
         new_file_freq: 1
         new_file_freq_units:
-            $OCN_DIAG_MODE == "spinup": "years"
             $TEST == True: "days"
-            else: "months"
+            else: "years"
         reduction_method: "mean"    # time average
         regional_section: "none"    # global
         fields:
-            $OCN_DIAG_MODE != "none":
+            $OCN_DIAG_MODE == "production_remap":
                 - module:   "ocean_model_rho2"
                   packing:  2                 # single precision
                   lists:    [ *transports ]
 
     # native grid
     hist:
-        suffix:
-            $OCN_DIAG_MODE == "spinup": "hm%4yr"
-            else: "hm%4yr-%2mo"
+        suffix: "hm%4yr"
         output_freq: 1
         output_freq_units:
             $OCN_DIAG_MODE == "spinup": "years"
@@ -82,20 +82,12 @@ Files:
         time_axis_units: "days"
         new_file_freq: 1
         new_file_freq_units:
-            $OCN_DIAG_MODE == "spinup": "years"
             $TEST == True: "days"
-            else: "months"
+            else: "years"
         reduction_method: "mean"    # time average
         regional_section: "none"    # global
         fields:
-            $OCN_DIAG_MODE == "spinup":
-                - module:   "ocean_model"
-                  packing:  2                 # single precision
-                  lists:    [ *hist_additional,
-                              *tracers,
-                              *visc_flds,
-                              *transports ]
-            $OCN_DIAG_MODE not in ["spinup", "none"]:
+            $OCN_DIAG_MODE not in ["none"]:
                 - module:   "ocean_model"
                   packing:  1                 # double precision
                   lists:    [ *prognostic,
@@ -103,44 +95,33 @@ Files:
                               *kpp_diags,
                               *forcing_flds,
                               *surface_flds,
-                              *visc_flds,
                               *transports,
-                              *tracers ]
+                              *tracers ]  # removed visc_flds
 
     # essential variable mapped to z_space
     hist_z_space:
-        suffix:
-            $OCN_DIAG_MODE == "spinup": "h%4yr"
-            else: "h%4yr-%2mo"
+        suffix: "h%4yr"
         output_freq: 1
         output_freq_units:
-            $OCN_DIAG_MODE == "spinup": "years"
             $TEST == True : "days"
             else: "months"
         time_axis_units: "days"
         new_file_freq: 1
         new_file_freq_units:
-            $OCN_DIAG_MODE == "spinup": "years"
             $TEST == True: "days"
-            else: "months"
+            else: "years"
         reduction_method: "mean"    # time average
         regional_section: "none"    # global
         fields:
-            $OCN_DIAG_MODE == "spinup":
-                - module:   "ocean_model_z"   # z_space
-                  packing:  2                 # single precision
-                  lists:    [ *prognostic ]
-            $OCN_DIAG_MODE not in ["spinup", "none"]:
+            $OCN_DIAG_MODE == "production_remap":
                 - module:   "ocean_model_z"   # z_space
                   packing:  1                 # double precision
                   lists:    [ *prognostic ]
 
     surface_avg:
         suffix: "sfc%4yr"
-        output_freq:
-            $OCN_DIAG_MODE == "spinup": 5
-            else: 1
-        output_freq_units: "days"
+        output_freq: 1
+        output_freq_units: "months"
         time_axis_units: "days"
         new_file_freq: 1
         new_file_freq_units: "years"
@@ -157,6 +138,7 @@ Files:
                   packing:  2                # single precision
                   lists:    [ *surface_flds,
                               *kpp_diags ]
+
     forcing_daily_avg:
         suffix: "frc%4yr"
         output_freq: 1
