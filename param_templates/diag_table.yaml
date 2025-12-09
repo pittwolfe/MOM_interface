@@ -24,7 +24,7 @@ FieldLists:
                          "hflso", "pso", "seaice_melt_heat", "Heat_PmE", "salt_flux_added"]
 # Removed: friver
 
-    - &forcing_flds_dev ["net_heat_coupler", "hfds", "LwLatSens", "heat_content_lrunoff",
+    - &forcing_flds_dev ["net_heat_coupler", "LwLatSens", "heat_content_lrunoff",
                          "heat_content_frunoff", "heat_content_icemelt", "heat_content_lprec",
                          "heat_content_fprec", "heat_content_vprec", "heat_content_cond",
                          "hfevapds", "heat_content_massin", "heat_content_surfwater",

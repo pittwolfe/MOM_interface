@@ -74,7 +74,6 @@
       ],
       [
          "net_heat_coupler",
-         "hfds",
          "LwLatSens",
          "heat_content_lrunoff",
          "heat_content_frunoff",
@@ -429,7 +428,6 @@
                      ],
                      [
                         "net_heat_coupler",
-                        "hfds",
                         "LwLatSens",
                         "heat_content_lrunoff",
                         "heat_content_frunoff",
