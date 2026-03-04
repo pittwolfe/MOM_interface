@@ -70,7 +70,7 @@
 
   <entry id="MOM6_VERTICAL_GRID">
     <type>char</type>
-    <valid_values>zstar_75L,zstar_65L,hycom1,sigma_shelf_zstar</valid_values>
+    <valid_values>zstar_75L,zstar_65L,hycom1,sigma_shelf_zstar,zstar_57L</valid_values>
     <default_value>zstar_65L</default_value>
     <values>
       <value grid="oi%tx2_3v2">hycom1</value>

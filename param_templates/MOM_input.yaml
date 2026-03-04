@@ -97,6 +97,7 @@ Global:
         units: nondim
         value:
             $MOM6_VERTICAL_GRID == "zstar_65L": 65
+            $MOM6_VERTICAL_GRID == "zstar_57L": 57
             $MOM6_VERTICAL_GRID in ["hycom1", "zstar_75L"]: 75
             $MOM6_VERTICAL_GRID == "sigma_shelf_zstar": 36
     USE_LEGACY_DIABATIC_DRIVER:
@@ -925,7 +926,7 @@ Global:
             ADAPTIVE - optimize for smooth neutral density surfaces"
         datatype: string
         value:
-            $MOM6_VERTICAL_GRID in ["zstar_65L", "zstar_75L"]: "Z*"
+            $MOM6_VERTICAL_GRID in ["zstar_57L", "zstar_65L", "zstar_75L"]: "Z*"
             $MOM6_VERTICAL_GRID == "hycom1": "HYCOM1"
             $MOM6_VERTICAL_GRID == "sigma_shelf_zstar": "SIGMA_SHELF_ZSTAR"
     ALE_COORDINATE_CONFIG:
@@ -949,6 +950,7 @@ Global:
         value:
             $MOM6_VERTICAL_GRID == "zstar_75L": '"FILE:zstar_75layer_2.5m_248.4m-2024-03-29.nc,dz"'
             $MOM6_VERTICAL_GRID == "zstar_65L": '"FILE:vgrid_65L_20200626.nc,dz"'
+            $MOM6_VERTICAL_GRID == "zstar_57L": '"FILE:ocean_vgrid_191107.nc,dz"'
             $MOM6_VERTICAL_GRID == "hycom1" and $OCN_GRID != "tx0.25v1": '"HYBRID:hybrid_75layer_zstar_2.50m-2025-09-12.nc,sigma2,dz"'
             $MOM6_VERTICAL_GRID == "hycom1" and $OCN_GRID == "tx0.25v1": '"HYBRID:hycom1_75_800m.nc,sigma2,FNC1:2,4000,4.5,.01"'
     REGRID_COMPRESSIBILITY_FRACTION:
