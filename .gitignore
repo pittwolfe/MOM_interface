@@ -108,3 +108,6 @@ ENV/
 
 
 externals
+
+# Mac Finder configs
+.DS_Store
