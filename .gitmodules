@@ -1,6 +1,6 @@
 [submodule "MOM6"]
   path = MOM6
-  url = https://github.com/NCAR/MOM6.git
+  url = git@github.com:pittwolfe/MOM6.git
   fxDONOTUSEurl = https://github.com/NCAR/MOM6.git
     fxtag = pw/ncar_251120_260330
     fxrequired = AlwaysRequired
